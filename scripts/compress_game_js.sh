@@ -1,6 +1,6 @@
 #! /bin/bash
 
-JS_PATH=T:/acapp/game/static/js/
+JS_PATH=/root/acapp/game/static/js/
 JS_PATH_SRC=${JS_PATH}src/
 JS_PATH_DIST=${JS_PATH}dist/
 
