@@ -2,6 +2,8 @@ class Settings {
   constructor(root) {
     this.root = root;
     this.platform = "WEB";
+    this.username = "";
+    this.photo = "";
     if (this.root.AcwingOS) this.platform = "ACAPP";
     this.$settings = $(`
 <div class="ac-game-settings">
@@ -24,7 +26,7 @@ class Settings {
     this.$login.show();
   }
 
-  register() {}
+  register() { }
   getinfo() {
     let outer = this;
     $.ajax({
@@ -37,6 +39,8 @@ class Settings {
         if (resp.result === "success") {
           outer.hide();
           outer.root.menu.show();
+          outer.username = resp.username;
+          outer.photo = resp.photo;
         } else {
           outer.show();
           outer.login();

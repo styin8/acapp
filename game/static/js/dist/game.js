@@ -188,6 +188,10 @@ requestAnimationFrame(AC_GAME_ANIMATION);class GameMap extends AcGameObject {
         this.spend_time = 0;
 
         this.cur_skill = null;
+        if (this.is_me) {
+            this.img = new Image();
+            this.img.src = this.playground.root.settings.photo;
+        }
     }
 
     start() {
@@ -311,10 +315,20 @@ requestAnimationFrame(AC_GAME_ANIMATION);class GameMap extends AcGameObject {
     }
 
     render() {
-        this.ctx.beginPath();
-        this.ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
-        this.ctx.fillStyle = this.color;
-        this.ctx.fill();
+        if (this.is_me) {
+            this.ctx.save();
+            this.ctx.beginPath();
+            this.ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
+            this.ctx.stroke();
+            this.ctx.clip();
+            this.ctx.drawImage(this.img, this.x - this.radius, this.y - this.radius, this.radius * 2, this.radius * 2);
+            this.ctx.restore();
+        } else {
+            this.ctx.beginPath();
+            this.ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
+            this.ctx.fillStyle = this.color;
+            this.ctx.fill();
+        }
     }
 
     on_destory() {
@@ -403,17 +417,6 @@ requestAnimationFrame(AC_GAME_ANIMATION);class GameMap extends AcGameObject {
 </div>        
 `);
         this.hide();
-        this.root.$ac_game.append(this.$playground);
-        this.width = this.$playground.width();
-        this.height = this.$playground.height();
-        this.game_map = new GameMap(this);
-        this.players = [];
-        this.players.push(new Player(this, this.width / 2, this.height / 2, this.height * 0.05, "white", this.height * 0.15, true));
-
-        for (let i = 0; i < 5; i++) {
-            this.players.push(new Player(this, this.width / 2, this.height / 2, this.height * 0.05, this.get_random_color(), this.height * 0.15, false));
-        }
-
         this.start();
     }
 
@@ -447,6 +450,8 @@ requestAnimationFrame(AC_GAME_ANIMATION);class GameMap extends AcGameObject {
   constructor(root) {
     this.root = root;
     this.platform = "WEB";
+    this.username = "";
+    this.photo = "";
     if (this.root.AcwingOS) this.platform = "ACAPP";
     this.$settings = $(`
 <div class="ac-game-settings">
@@ -469,7 +474,7 @@ requestAnimationFrame(AC_GAME_ANIMATION);class GameMap extends AcGameObject {
     this.$login.show();
   }
 
-  register() {}
+  register() { }
   getinfo() {
     let outer = this;
     $.ajax({
@@ -482,6 +487,8 @@ requestAnimationFrame(AC_GAME_ANIMATION);class GameMap extends AcGameObject {
         if (resp.result === "success") {
           outer.hide();
           outer.root.menu.show();
+          outer.username = resp.username;
+          outer.photo = resp.photo;
         } else {
           outer.show();
           outer.login();

@@ -70,3 +70,13 @@
   transform: translate(-50%,-50%);
   background-color: rgba(0, 0, 0, 0.7);
 }
+
+.ac-game-settings-register {
+  width: 20vw;
+  height: 49vh;
+  position: relative;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%,-50%);
+  background-color: rgba(0, 0, 0, 0.7);
+}
