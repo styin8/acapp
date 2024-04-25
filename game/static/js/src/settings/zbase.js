@@ -23,6 +23,7 @@ class Settings {
           outer.hide();
           outer.root.menu.show();
         } else {
+          console.log("www");
           outer.login();
         }
       },

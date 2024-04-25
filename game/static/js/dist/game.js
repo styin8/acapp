@@ -18,6 +18,7 @@ class AcGameMenu {
     </div>
 </div>        
 `);
+        this.hide();
         this.$single = this.$menu.find('.ac-game-menu-field-single');
         this.$multi = this.$menu.find('.ac-game-menu-field-multi');
         this.$settings = this.$menu.find('.ac-game-menu-field-settings');
@@ -400,7 +401,7 @@ requestAnimationFrame(AC_GAME_ANIMATION);class GameMap extends AcGameObject {
 <div class="ac-game-playground">
 </div>        
 `);
-        // this.hide();
+        this.hide();
         this.root.$ac_game.append(this.$playground);
         this.width = this.$playground.width();
         this.height = this.$playground.height();
@@ -431,11 +432,54 @@ requestAnimationFrame(AC_GAME_ANIMATION);class GameMap extends AcGameObject {
     hide() {
         this.$playground.hide();
     }
-}export class AcGame{
-    constructor(id){
+}class Settings {
+  constructor(root) {
+    this.root = root;
+    this.platform = "WEB";
+    if (this.root.AcwingOS) this.platform = "ACAPP";
+
+    this.start();
+  }
+
+  login() {}
+
+  register() {}
+  getinfo() {
+    let outer = this;
+    $.ajax({
+      url: "/settings/getinfo",
+      type: "GET",
+      data: {
+        platform: outer.platform,
+      },
+      success: function (resp) {
+        if (resp.result === "success") {
+          outer.hide();
+          outer.root.menu.show();
+        } else {
+          console.log("www");
+          outer.login();
+        }
+      },
+    });
+  }
+
+  start() {
+    this.getinfo();
+  }
+
+  hide() {}
+
+  show() {}
+}
+export class AcGame{
+    constructor(id, AcwingOS){
         this.id = id;
         this.$ac_game = $('#' + id);
-        // this.menu = new AcGameMenu(this);
+        this.AcwingOS = AcwingOS;
+
+        this.settings = new Settings(this);
+        this.menu = new AcGameMenu(this);
         this.playground = new AcGamePlayground(this);
 
         this.start();
