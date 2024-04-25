@@ -437,11 +437,26 @@ requestAnimationFrame(AC_GAME_ANIMATION);class GameMap extends AcGameObject {
     this.root = root;
     this.platform = "WEB";
     if (this.root.AcwingOS) this.platform = "ACAPP";
-
+    this.$settings = $(`
+<div class="ac-game-settings">
+    <div class="ac-game-settings-login">
+    </div>
+    <div class="ac-game-settings-register">
+    </div>
+</div>
+`);
+    this.root.$ac_game.append(this.$settings);
+    this.hide();
+    this.$login = this.$settings.find(".ac-game-settings-login");
+    this.$login.hide();
+    this.$register = this.$settings.find(".ac-game-settings-register");
+    this.$register.hide();
     this.start();
   }
 
-  login() {}
+  login() {
+    this.$login.show();
+  }
 
   register() {}
   getinfo() {
@@ -457,7 +472,7 @@ requestAnimationFrame(AC_GAME_ANIMATION);class GameMap extends AcGameObject {
           outer.hide();
           outer.root.menu.show();
         } else {
-          console.log("www");
+          outer.show();
           outer.login();
         }
       },
@@ -468,9 +483,13 @@ requestAnimationFrame(AC_GAME_ANIMATION);class GameMap extends AcGameObject {
     this.getinfo();
   }
 
-  hide() {}
+  hide() {
+    this.$settings.hide();
+  }
 
-  show() {}
+  show() {
+    this.$settings.show();
+  }
 }
 export class AcGame{
     constructor(id, AcwingOS){
