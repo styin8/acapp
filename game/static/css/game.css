@@ -11,6 +11,10 @@
   position: relative;
   top: 40vh;
   left: 19vh;
+    width: 20vw;
+    position: relative;
+    top: 30%;
+    left: 20%;
 }
 
 .ac-game-menu-field-item {
@@ -25,6 +29,17 @@
   border-radius: 10px;
   letter-spacing: 0.5vw;
   cursor: pointer;
+    color: white;
+    height: 7vh;
+    width: 18vw;
+    font-size: 6vh;
+    font-style: italic;
+    padding: 2vh;
+    text-align: center;
+    background-color: rgba(39, 21, 28, 0.6);
+    border-radius: 10px;
+    letter-spacing: 0.5vw;
+    cursor: pointer;
 }
 
 .ac-game-menu-field-item:hover {

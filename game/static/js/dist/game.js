@@ -206,11 +206,12 @@ requestAnimationFrame(AC_GAME_ANIMATION);class GameMap extends AcGameObject {
             return false;
         })
         this.playground.game_map.$canvas.mousedown(function (e) {
+            const rect = outer.ctx.canvas.getBoundingClientRect();
             if (e.which === 3) {
-                outer.move_to(e.clientX, e.clientY);
+                outer.move_to(e.clientX - rect.left, e.clientY - rect.top);
             } else if (e.which === 1) {
                 if (outer.cur_skill == "fireball") {
-                    outer.shoot_fireball(e.clientX, e.clientY);
+                    outer.shoot_fireball(e.clientX - rect.left, e.clientY - rect.top);
                 }
 
                 outer.cur_skill = null;
@@ -427,6 +428,16 @@ requestAnimationFrame(AC_GAME_ANIMATION);class GameMap extends AcGameObject {
 
     show() {
         this.$playground.show();
+        this.root.$ac_game.append(this.$playground);
+        this.width = this.$playground.width();
+        this.height = this.$playground.height();
+        this.game_map = new GameMap(this);
+        this.players = [];
+        this.players.push(new Player(this, this.width / 2, this.height / 2, this.height * 0.05, "white", this.height * 0.15, true));
+
+        for (let i = 0; i < 5; i++) {
+            this.players.push(new Player(this, this.width / 2, this.height / 2, this.height * 0.05, this.get_random_color(), this.height * 0.15, false));
+        }
     }
 
     hide() {
