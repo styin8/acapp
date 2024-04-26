@@ -41,7 +41,7 @@ class AcGameMenu {
             
         });
         this.$settings.click(function () {
-            
+            outer.root.settings.logout_on_remote();
         });
     }
 
